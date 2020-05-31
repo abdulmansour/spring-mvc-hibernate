@@ -22,21 +22,21 @@
         </div>
     </div>
 
-    <form:form action="searchCustomer" modelAttribute="search" method="GET">
-        <table>
-            <tr>
-                <td><form:input path="searchValue"/></td>
-                <td><input type="submit" value="Search" class="save"/></td>
-            </tr>
-        </table>
-    </form:form>
-
     <div id="container">
         <div id="content">
 
             <input class="add-button" type="button" value="Add Customer"
                    onclick="window.location.href='saveCustomerForm'; return false"/>
-            
+
+            <form:form action="searchCustomer" modelAttribute="search" method="GET">
+                <table>
+                    <tr>
+                        <td><form:input path="searchValue"/></td>
+                        <td><input type="submit" value="Search" class="save"/></td>
+                    </tr>
+                </table>
+            </form:form>
+
             <table>
                 <tr>
                     <th>First Name</th>
