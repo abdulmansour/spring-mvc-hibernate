@@ -25,7 +25,7 @@
         <div id="content">
 
             <input class="add-button" type="button" value="Add Customer"
-                   onclick="window.location.href='addCustomerForm'; return false"/>
+                   onclick="window.location.href='saveCustomerForm'; return false"/>
 
             <table>
                 <tr>
@@ -39,7 +39,9 @@
                         <td>${customer.firstName}</td>
                         <td>${customer.lastName}</td>
                         <td>${customer.email}</td>
-                        <td><a href="${pageContext.request.contextPath}/customer/updateCustomerForm?customerId=${customer.id}">Update</a></td>
+                        <td><a href="${pageContext.request.contextPath}/customer/updateCustomerForm?customerId=${customer.id}">Update</a> |
+                            <a href="${pageContext.request.contextPath}/customer/deleteCustomerForm?customerId=${customer.id}"
+                            onclick="if (!confirm('Are you sure you want to delete?')) return false">Delete</a></td>
                     </tr>
                 </c:forEach>
             </table>
