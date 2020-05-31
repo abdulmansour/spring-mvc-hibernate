@@ -7,7 +7,6 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 //always add @Repository to DAO implementations
@@ -24,7 +23,7 @@ public class CustomerDAOImpl implements CustomerDAO {
         Session currentSession = sessionFactory.getCurrentSession();
 
         //create getCustomers query
-        Query<Customer> query = currentSession.createQuery("from Customer as c order by lastName", Customer.class);
+        Query<Customer> query = currentSession.createQuery("FROM Customer order by lastName", Customer.class);
 
         //execute and get result list
         List<Customer> customers = query.getResultList();
@@ -59,4 +58,27 @@ public class CustomerDAOImpl implements CustomerDAO {
         currentSession.delete(customer);
     }
 
+    public List<Customer> searchCustomers(String search) {
+        //get the current hibernate session
+        Session currentSession = sessionFactory.getCurrentSession();
+
+        //create getCustomers query
+
+        String searchParam = "%" + search + "%";
+
+        String hql =
+                "FROM Customer " +
+                "WHERE firstName like :searchParam or " +
+                "lastName like :searchParam or " +
+                "email like :searchParam " +
+                "ORDER BY lastName";
+
+        //execute and get result list
+        List<Customer> customers = currentSession.createQuery(hql)
+                .setParameter("searchParam", searchParam)
+                .list();
+
+        //return result list
+        return customers;
+    }
 }

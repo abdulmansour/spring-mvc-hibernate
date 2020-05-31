@@ -1,6 +1,7 @@
 package com.abdulmansour.controller;
 
 import com.abdulmansour.entity.Customer;
+import com.abdulmansour.entity.Search;
 import com.abdulmansour.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,11 @@ public class CustomerController {
 
         //add the customers to the model
         model.addAttribute("customers", customers);
+
+        //add empty search filet
+        Search search = new Search("");
+
+        model.addAttribute("search", search);
 
         return "list-customers";
     }
@@ -58,5 +64,20 @@ public class CustomerController {
         Customer customer = customerService.getCustomer(customerId);
         customerService.deleteCustomer(customer);
         return "redirect:/customer/list";
+    }
+
+    @GetMapping("/searchCustomer")
+    public String searchCustomer(@ModelAttribute("search") Search search, Model model) {
+        //get customers from the DAO
+        List<Customer> customers = customerService.searchCustomers(search.getSearchValue());
+
+        for (Customer customer:customers) {
+            System.out.println(customer);
+        }
+
+        //add the customers to the model
+        model.addAttribute("customers", customers);
+
+        return "list-customers";
     }
 }
